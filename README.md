@@ -8,8 +8,13 @@ An example solution that uses best practice patterns for developing web applicat
 
 ### Application Patterns
 
+* Endpoint Load Balancing
 * Verticle Slice Architecture
 * Event Sourcing
+
+### Application Testing Patterns
+
+* In Memory Testing Of Applications
 
 ### Infrastructure Patterns
 
