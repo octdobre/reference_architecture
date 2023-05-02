@@ -1,7 +1,7 @@
-﻿using Api.Infrastructure;
+﻿using Squash.Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Features.Bug;
+namespace Squash.Api.Features.Bug;
 
 public static class Delete
 {
@@ -9,7 +9,9 @@ public static class Delete
     {
         routeGroupBuilder.MapDelete("/{id:guid}", Handler)
             .WithName("DeleteBug")
-            .WithOpenApi();
+            .WithOpenApi()
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
     }
 
     private static readonly Func<Guid, BugDb, CancellationToken, Task<IResult>> Handler = async (id, bugsDb, token) =>
@@ -20,16 +22,9 @@ public static class Delete
 
             await bugsDb.SaveChangesAsync(token);
 
-            return TypedResults.Ok(new
-            {
-                DeletedId = bug.Id
-            });
+            return TypedResults.Ok(bug.Id);
         }
         else
-            return TypedResults.NotFound(new
-            {
-                NotFoundId = id,
-                Deleted = false
-            });
+            return TypedResults.NotFound();
     };
 }

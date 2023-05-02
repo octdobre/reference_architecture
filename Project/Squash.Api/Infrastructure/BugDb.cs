@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Api.Infrastructure;
+namespace Squash.Api.Infrastructure;
 
 public class BugDb : DbContext
 {

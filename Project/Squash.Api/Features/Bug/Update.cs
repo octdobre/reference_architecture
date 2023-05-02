@@ -1,22 +1,21 @@
-﻿using Api.Infrastructure;
+﻿using Squash.Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Features.Bug;
+namespace Squash.Api.Features.Bug;
 
 public static class Update
 {
-    public class UpdateBug
-    {
-        public string? Title { get; set; }
-
-        public string? Description { get; set; }
-    }
+    public record UpdateBug(
+        string? Title,
+        string? Description);
 
     public static void SetupUpdateBug(this RouteGroupBuilder routeGroupBuilder)
     {
         routeGroupBuilder.MapPut("/{id:guid}", Handler)
             .WithName("UpdateBug")
-            .WithOpenApi();
+            .WithOpenApi()
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
     }
 
     private static readonly Func<Guid, UpdateBug, BugDb, CancellationToken, Task<IResult>> Handler = async (id, updateBug, bugsDb, token) =>
@@ -31,17 +30,12 @@ public static class Update
                 Description = updateBug.Description ?? bug.Description
             };
 
-            await bugsDb.Bugs.AddAsync(updatedBug, token);
+            bugsDb.Bugs.Add(updatedBug);
             await bugsDb.SaveChangesAsync(token);
 
             return TypedResults.Ok(updatedBug);
         }
         else
-            return TypedResults.NotFound(
-                new
-                {
-                    NotFoundId = id,
-                    Updated = false
-                });
+            return TypedResults.NotFound();
     };
 }

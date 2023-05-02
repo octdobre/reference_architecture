@@ -1,5 +1,5 @@
-using Api.Features.Bug;
-using Api.Infrastructure;
+using Squash.Api.Features.Bug;
+using Squash.Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,15 +19,17 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpLogging();
 }
 
 var bugGroup = app.MapGroup("/bug");
 
 bugGroup.AddEndpointFilter((context, next) =>
 {
-    app.Logger.LogInformation("Started action on a bug!");
+    var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(typeof(Program).FullName);
+    logger.LogInformation("Started action on a bug!");
     var result =  next(context);
-    app.Logger.LogInformation("Finished action on a bug!");
+    logger.LogInformation("Finished action on a bug!");
     return result;
 });
 
