@@ -1,0 +1,44 @@
+version: "3.9" 
+services:
+  mongodb:                       
+    container_name: mongodb      
+    image: mongodb/mongodb-community-server:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=MySecureStrongPassword1234
+    ports:                        
+      - "27017:27017/tcp"                                  
+    networks:                
+      netdb:
+        ipv4_address: 10.0.10.2
+    volumes:
+      - mongodb_data:/data/db
+  # mongo-express:
+  #   container_name: mongoexp
+  #   image: mongo-express:latest
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - ME_CONFIG_OPTIONS_EDITORTHEME="ambiance"
+  #     - ME_CONFIG_BASICAUTH_USERNAME="root"
+  #     - ME_CONFIG_BASICAUTH_PASSWORD="1234"
+  #     # - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+  #     # - ME_CONFIG_MONGODB_ADMINPASSWORD=MySecureStrongPassword1234#
+  #     # - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+  #     - ME_CONFIG_MONGODB_URL=mongodb://admin:MySecureStrongPassword1234!@10.0.10.2:27017/db?ssl=false
+  #   depends_on:
+  #     - mongodb
+  #   networks:
+  #     netdb:
+  #       ipv4_address: 10.0.10.3
+networks:
+  netdb:
+    name: netdb
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.10.0/24"
+          ip_range: "10.0.10.0/24"
+          gateway: 10.0.10.1
+volumes:
+  mongodb_data:

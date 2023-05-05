@@ -1,5 +1,5 @@
 ﻿using Squash.Api.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace Squash.Api.Features.Bug;
 
@@ -14,17 +14,22 @@ public static class Delete
             .Produces(StatusCodes.Status404NotFound);
     }
 
-    private static readonly Func<Guid, BugDb, CancellationToken, Task<IResult>> Handler = async (id, bugsDb, token) =>
-    {
-        if (await bugsDb.Bugs.SingleOrDefaultAsync(b => b.Id == id, token) is { } bug)
+    private static readonly Func<Guid, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+        = async (id, bugsDb, token) =>
         {
-            bugsDb.Bugs.Remove(bug);
+            var filter = Builders<BugDocumentDb.BugDocument>.Filter.Eq(e => e.Id, id);
 
-            await bugsDb.SaveChangesAsync(token);
+            var deleteResult = await bugsDb.BugCollection.DeleteOneAsync(filter, token);
 
-            return TypedResults.Ok(bug.Id);
-        }
-        else
-            return TypedResults.NotFound();
-    };
+            if (deleteResult.DeletedCount == 1)
+            {
+                return TypedResults.Ok(id);
+            }
+            else if (deleteResult.DeletedCount == 0)
+            {
+                return TypedResults.NotFound();
+            }
+
+            return TypedResults.BadRequest();
+        };
 }

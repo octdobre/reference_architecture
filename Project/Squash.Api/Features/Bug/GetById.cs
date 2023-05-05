@@ -1,5 +1,5 @@
-﻿using Squash.Api.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using MongoDB.Driver;
+using Squash.Api.Infrastructure;
 
 namespace Squash.Api.Features.Bug;
 
@@ -20,9 +20,12 @@ public static class GetById
             .Produces(StatusCodes.Status404NotFound);
     }
 
-    private static readonly Func<Guid, BugDb, CancellationToken, Task<IResult>> Handler = async (id, bugsDb, token) =>
+    private static readonly Func<Guid, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+        = async (id, bugsDb, token) =>
     {
-        return await bugsDb.Bugs.SingleOrDefaultAsync(b => b.Id == id, token) is { } bug
+        var filter = Builders<BugDocumentDb.BugDocument>.Filter.Eq(e => e.Id, id);
+
+        return await bugsDb.BugCollection.Find(filter).FirstOrDefaultAsync(token) is { } bug
             ? TypedResults.Ok(
                 new GetBug(
                     Id: bug.Id,

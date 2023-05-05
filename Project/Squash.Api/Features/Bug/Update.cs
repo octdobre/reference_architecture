@@ -1,5 +1,5 @@
 ﻿using Squash.Api.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace Squash.Api.Features.Bug;
 
@@ -18,20 +18,15 @@ public static class Update
             .Produces(StatusCodes.Status404NotFound);
     }
 
-    private static readonly Func<Guid, UpdateBug, BugDb, CancellationToken, Task<IResult>> Handler = async (id, updateBug, bugsDb, token) =>
+    private static readonly Func<Guid, UpdateBug, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+        = async (id, updateBug, bugsDb, token) =>
     {
-        if (await bugsDb.Bugs.SingleOrDefaultAsync(b => b.Id == id, token) is { } bug)
+        var filter = Builders<BugDocumentDb.BugDocument>.Filter.Eq(e => e.Id, id);
+
+        if (await bugsDb.BugCollection.Find(filter).FirstOrDefaultAsync(token) is { } bug)
         {
-            bugsDb.Bugs.Remove(bug);
-
-            var updatedBug = bug with
-            {
-                Title = updateBug.Title ?? bug.Title,
-                Description = updateBug.Description ?? bug.Description
-            };
-
-            bugsDb.Bugs.Add(updatedBug);
-            await bugsDb.SaveChangesAsync(token);
+            var updatedBug = bug with { Title = updateBug.Title!, Description = updateBug.Description! };
+            await bugsDb.BugCollection.ReplaceOneAsync(filter, updatedBug);
 
             return TypedResults.Ok(updatedBug);
         }

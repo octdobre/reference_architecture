@@ -2,7 +2,8 @@
 
 namespace Squash.Api.Infrastructure;
 
-public class BugDb : DbContext
+[Obsolete]
+public class BugInMemoryDb : DbContext
 {
     public record BugDocument(
         Guid Id,
@@ -10,7 +11,7 @@ public class BugDb : DbContext
         string Description,
         DateTime ReportTime);
 
-    public BugDb(DbContextOptions<BugDb> options)
+    public BugInMemoryDb(DbContextOptions<BugInMemoryDb> options)
         : base(options) { }
 
     public DbSet<BugDocument> Bugs => Set<BugDocument>();

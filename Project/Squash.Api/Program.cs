@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BugDb>(opt => opt.UseInMemoryDatabase("BugDb"));
-
+builder.Services.AddDbContext<BugInMemoryDb>(opt => opt.UseInMemoryDatabase("BugDb"));
+builder.Services.AddSingleton<BugDocumentDb>();
 
 var app = builder.Build();
 
@@ -22,6 +22,10 @@ if (app.Environment.IsDevelopment())
     app.UseHttpLogging();
 }
 
+/*
+ *Endpoint group mapping helps reduce repetition of a collection path
+ * Specific filters can be added only to this endpoint group.
+ */
 var bugGroup = app.MapGroup("/bug");
 
 bugGroup.AddEndpointFilter((context, next) =>
@@ -37,6 +41,7 @@ bugGroup.SetupCreateBug();
 bugGroup.SetupGetByIdBug();
 bugGroup.SetupUpdateBug();
 bugGroup.SetupDeleteBug();
+bugGroup.SetupGetBugsPaginated();
 
 
 app.Run();

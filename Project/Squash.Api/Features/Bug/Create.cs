@@ -1,4 +1,5 @@
-﻿using Squash.Api.Infrastructure;
+﻿using MongoDB.Driver;
+using Squash.Api.Infrastructure;
 
 namespace Squash.Api.Features.Bug;
 
@@ -51,18 +52,16 @@ public static class Create
             return await next(context);
         };
 
-    private static readonly Func<CreateRequest, BugDb, LinkGenerator, CancellationToken, Task<IResult>> Handler
+    private static readonly Func<CreateRequest, BugDocumentDb, LinkGenerator, CancellationToken, Task<IResult>> Handler
         = async (createdBug, bugsDb, linker, token) =>
         {
-            var newBug = new BugDb.BugDocument(
+            var newBug = new BugDocumentDb.BugDocument(
                 Guid.NewGuid(),
                 createdBug.Title,
                 createdBug.Description,
-                createdBug.ReportTime);
+            createdBug.ReportTime);
 
-            bugsDb.Bugs.Add(newBug);
-
-            await bugsDb.SaveChangesAsync(token);
+            await bugsDb.BugCollection.InsertOneAsync(newBug, new InsertOneOptions(), token);
 
             return TypedResults.Created($"{linker.GetPathByName(PathName)}/{newBug.Id}", newBug);
         };
