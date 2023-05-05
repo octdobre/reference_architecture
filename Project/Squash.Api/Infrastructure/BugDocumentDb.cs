@@ -13,16 +13,26 @@ public class BugDocumentDb
         string Description,
         DateTime ReportTime);
 
-    public IMongoCollection<BugDocument> BugCollection { get; }
+    public IMongoCollection<BugDocument> BugCollection { get; private set; }
 
     public BugDocumentDb(IConfiguration configuration)
     {
-        //Registers GuidSerialization so that the field appears as a guid value in the document in mongodb instead of a binary data field
-        BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+        //temp until the framework switches completely
+        MongoDefaults.GuidRepresentation = GuidRepresentation.Standard;
 
         var conn = configuration.GetConnectionString("mongodb");
         var client = new MongoClient(conn);
+
+        // checks if databases and collections exist
+        VerifyAndSetupDatabase(client);
+    }
+
+    private void VerifyAndSetupDatabase(MongoClient client)
+    {
+        //if db does not exist, it creates it silently
         var database = client.GetDatabase("Squash");
+
+        //if collection does not exist, it creates it silently
         BugCollection = database.GetCollection<BugDocument>("bugs");
     }
 }
