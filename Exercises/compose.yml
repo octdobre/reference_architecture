@@ -13,6 +13,20 @@ services:
         ipv4_address: 10.0.10.2
     volumes:
       - mongodb_data:/data/db
+  mssqldb:
+    container_name: mssqldb
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    environment: 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MySecureStrongPassword1234
+    ports:                        
+      - "1433:1433/tcp"
+    networks:                
+      netdb:
+        ipv4_address: 10.0.10.3
+    volumes:
+      - mssqldb_data:/var/opt/mssql/data 
 networks:
   netdb:
     name: netdb
