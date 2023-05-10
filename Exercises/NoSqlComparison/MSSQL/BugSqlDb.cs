@@ -1,9 +1,7 @@
-﻿using DocumentDatabaseDriverComparison.MSSQL.Bug;
-using DocumentDatabaseDriverComparison.MSSQL.Obsolete;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace DocumentDatabaseDriverComparison.MSSQL;
+namespace NoSqlComparison.MSSQL;
 
 public class BugSqlDb : DbContext
 {

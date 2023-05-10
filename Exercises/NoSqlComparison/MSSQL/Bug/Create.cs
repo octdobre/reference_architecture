@@ -1,4 +1,4 @@
-﻿namespace DocumentDatabaseDriverComparison.MSSQL.Bug;
+﻿namespace NoSqlComparison.MSSQL.Bug;
 
 public static class Create
 {

@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace DocumentDatabaseDriverComparison.MongoDb.Bug;
+namespace NoSqlComparison.MongoDb.Bug;
 
 public static class Delete
 {
@@ -15,10 +15,10 @@ public static class Delete
         return routeGroupBuilder;
     }
 
-    private static readonly Func<Guid, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+    private static readonly Func<Guid, BugMongoDbRepo, CancellationToken, Task<IResult>> Handler
         = async (id, bugsDb, token) =>
         {
-            var filter = Builders<BugDocumentDb.BugDocument>.Filter.Eq(e => e.Id, id);
+            var filter = Builders<BugMongoDbRepo.BugDocument>.Filter.Eq(e => e.Id, id);
 
             var deleteResult = await bugsDb.BugCollection.DeleteOneAsync(filter, token);
 

@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace DocumentDatabaseDriverComparison.MongoDb.Bug;
+namespace NoSqlComparison.MongoDb.Bug;
 
 public static class GetPaginated
 {
@@ -26,7 +26,7 @@ public static class GetPaginated
         return routeGroupBuilder;
     }
 
-    private static readonly Func<int?, int?, bool?, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+    private static readonly Func<int?, int?, bool?, BugMongoDbRepo, CancellationToken, Task<IResult>> Handler
         = async (pageNumber, pageSize, sortByTitle, bugsDb, token) =>
         {
             //default values
@@ -46,7 +46,7 @@ public static class GetPaginated
 
             var items = await queryExpression.ToListAsync(token);
 
-            var filter = Builders<BugDocumentDb.BugDocument>.Filter.Empty;
+            var filter = Builders<BugMongoDbRepo.BugDocument>.Filter.Empty;
             var count = await bugsDb.BugCollection.CountDocumentsAsync(filter);
 
             return items.Any()

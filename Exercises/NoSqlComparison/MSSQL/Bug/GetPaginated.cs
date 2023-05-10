@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DocumentDatabaseDriverComparison.MSSQL.Bug;
+namespace NoSqlComparison.MSSQL.Bug;
 
 public static class GetPaginated
 {

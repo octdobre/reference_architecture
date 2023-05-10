@@ -1,19 +1,28 @@
-using DocumentDatabaseDriverComparison.MongoDb;
-using DocumentDatabaseDriverComparison.MongoDb.Bug;
-using DocumentDatabaseDriverComparison.MSSQL;
-using DocumentDatabaseDriverComparison.MSSQL.Bug;
+using NoSqlComparison;
+using NoSqlComparison.MongoDb;
+using NoSqlComparison.MongoDb.Bug;
+using NoSqlComparison.MSSQL;
+using NoSqlComparison.MSSQL.Bug;
+using NoSqlComparison.RavenDb;
+using NoSqlComparison.RavenDb.Bug;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var features = builder.Configuration.GetSection(nameof(Features)).Get<Features>() ?? new Features(false, false);
+var features = builder.Configuration.GetSection(nameof(Features)).Get<Features>() ?? new Features(false, false, false);
 
 if (features.Mssql)
 {
     BugSqlDb.SetupSqlDb(builder.Services, builder.Configuration);
 }
-else if (features.Mongodb)
+
+if (features.Mongodb)
 {
-    builder.Services.AddSingleton<BugDocumentDb>();
+    builder.Services.AddSingleton<BugMongoDbRepo>();
+}
+
+if (features.RavenDb)
+{
+    builder.Services.AddSingleton<BugRavenDbRepo>();
 }
 
 // Add services to the container.
@@ -44,6 +53,16 @@ if (features.Mongodb)
         .DeleteBugWithMongoDb();
 }
 
+if (features.RavenDb)
+{
+    app.MapGroup("/ravendb/bug")
+        .PostBugWithRavenDb()
+        .GetBugByIdWithRavenDb()
+        .GetPaginatedBugsWithRavenDb()
+        .UpdateBugWithRavenDb()
+        .DeleteBugWithRavenDb();
+}
+
 // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
 {
@@ -53,4 +72,7 @@ if (features.Mongodb)
 
 app.Run();
 
-internal record Features(bool Mssql, bool Mongodb);
+namespace NoSqlComparison
+{
+    internal record Features(bool Mssql, bool Mongodb, bool RavenDb);
+}

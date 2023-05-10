@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace DocumentDatabaseDriverComparison.MongoDb;
+namespace NoSqlComparison.MongoDb;
 
-public class BugDocumentDb
+public class BugMongoDbRepo
 {
     public record BugDocument(
         Guid Id,
@@ -13,7 +13,7 @@ public class BugDocumentDb
 
     public IMongoCollection<BugDocument> BugCollection { get; private set; }
 
-    public BugDocumentDb(IConfiguration configuration)
+    public BugMongoDbRepo(IConfiguration configuration)
     {
         //temp until the framework switches completely
         MongoDefaults.GuidRepresentation = GuidRepresentation.Standard;

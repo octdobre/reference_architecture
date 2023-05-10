@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace DocumentDatabaseDriverComparison.MongoDb.Bug;
+namespace NoSqlComparison.MongoDb.Bug;
 
 public static class Update
 {
@@ -19,10 +19,10 @@ public static class Update
         return routeGroupBuilder;
     }
 
-    private static readonly Func<Guid, UpdateBug, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+    private static readonly Func<Guid, UpdateBug, BugMongoDbRepo, CancellationToken, Task<IResult>> Handler
         = async (id, updateBug, bugsDb, token) =>
     {
-        var filter = Builders<BugDocumentDb.BugDocument>.Filter.Eq(e => e.Id, id);
+        var filter = Builders<BugMongoDbRepo.BugDocument>.Filter.Eq(e => e.Id, id);
 
         if (await bugsDb.BugCollection.Find(filter).FirstOrDefaultAsync(token) is { } bug)
         {

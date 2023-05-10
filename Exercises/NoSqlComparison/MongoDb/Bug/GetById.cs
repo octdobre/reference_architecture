@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace DocumentDatabaseDriverComparison.MongoDb.Bug;
+namespace NoSqlComparison.MongoDb.Bug;
 
 public static class GetById
 {
@@ -21,17 +21,17 @@ public static class GetById
         return routeGroupBuilder;
     }
 
-    private static readonly Func<Guid, BugDocumentDb, CancellationToken, Task<IResult>> Handler
+    private static readonly Func<Guid, BugMongoDbRepo, CancellationToken, Task<IResult>> Handler
         = async (id, bugsDb, token) =>
     {
-        var filter = Builders<BugDocumentDb.BugDocument>.Filter.Eq(e => e.Id, id);
+        var filter = Builders<BugMongoDbRepo.BugDocument>.Filter.Eq(e => e.Id, id);
 
         //example of a projection
-        var projection = Builders<BugDocumentDb.BugDocument>.Projection
-            .Include(nameof(BugDocumentDb.BugDocument.Id))
-            .Include(nameof(BugDocumentDb.BugDocument.Title))
-            .Include(nameof(BugDocumentDb.BugDocument.Description))
-            .Include(nameof(BugDocumentDb.BugDocument.ReportTime));
+        var projection = Builders<BugMongoDbRepo.BugDocument>.Projection
+            .Include(nameof(BugMongoDbRepo.BugDocument.Id))
+            .Include(nameof(BugMongoDbRepo.BugDocument.Title))
+            .Include(nameof(BugMongoDbRepo.BugDocument.Description))
+            .Include(nameof(BugMongoDbRepo.BugDocument.ReportTime));
 
         //projection protects new fields from appear in the get result
         return await bugsDb.BugCollection.Find(filter).Project<GetBug>(projection).FirstOrDefaultAsync(token) is { } bug

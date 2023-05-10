@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-
-namespace DocumentDatabaseDriverComparison.MongoDb.Bug;
+﻿namespace NoSqlComparison.RavenDb.Bug;
 
 public static class Create
 {
@@ -11,7 +9,7 @@ public static class Create
         string Description,
         DateTime ReportTime);
 
-    public static RouteGroupBuilder PostBugWithMongoDb(this RouteGroupBuilder routeGroupBuilder)
+    public static RouteGroupBuilder PostBugWithRavenDb(this RouteGroupBuilder routeGroupBuilder)
     {
         routeGroupBuilder.MapPost("/", Handler)
             .WithName(PathName)
@@ -21,16 +19,21 @@ public static class Create
         return routeGroupBuilder;
     }
 
-    private static readonly Func<CreateRequest, BugDocumentDb, LinkGenerator, CancellationToken, Task<IResult>> Handler
+    private static readonly Func<CreateRequest, BugRavenDbRepo, LinkGenerator, CancellationToken, Task<IResult>> Handler
         = async (createdBug, bugsDb, linker, token) =>
         {
-            var newBug = new BugDocumentDb.BugDocument(
-                Guid.NewGuid(),
+            var newBug = new BugRavenDbRepo.BugDocument(
+                Guid.NewGuid().ToString(),
                 createdBug.Title,
                 createdBug.Description,
             createdBug.ReportTime);
 
-            await bugsDb.BugCollection.InsertOneAsync(newBug, new InsertOneOptions(), token);
+            using (var session = bugsDb.Store.OpenAsyncSession())
+            {
+                await session.StoreAsync(newBug, newBug.Id, token);
+                session.Advanced.GetMetadataFor(newBug)["@collection"] = "Bugs";
+                await session.SaveChangesAsync(token);
+            }
 
             return TypedResults.Created($"{linker.GetPathByName(PathName)}/{newBug.Id}", newBug);
         };

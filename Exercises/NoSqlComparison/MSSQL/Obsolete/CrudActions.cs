@@ -1,4 +1,4 @@
-﻿namespace DocumentDatabaseDriverComparison.MSSQL.Obsolete;
+﻿namespace NoSqlComparison.MSSQL.Obsolete;
 
 /// <summary>
 /// This class represents an example of functional programming

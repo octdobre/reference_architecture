@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using static DocumentDatabaseDriverComparison.MSSQL.BugSqlDb;
+using static NoSqlComparison.MSSQL.BugSqlDb;
 
-namespace DocumentDatabaseDriverComparison.MSSQL.Obsolete;
+namespace NoSqlComparison.MSSQL.Obsolete;
 
 /// <summary>
 /// This class represents an example of extension methods ready to use in controllers.

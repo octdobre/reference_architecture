@@ -1,18 +1,5 @@
 version: "3.9" 
 services:
-  mongodb:                       
-    container_name: mongodb      
-    image: mongodb/mongodb-community-server:latest
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=MySecureStrongPassword1234
-    ports:                        
-      - "27017:27017/tcp"                                  
-    networks:                
-      netdb:
-        ipv4_address: 10.0.10.2
-    volumes:
-      - mongodb_data:/data/db
   mssqldb:
     container_name: mssqldb
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -26,7 +13,42 @@ services:
       netdb:
         ipv4_address: 10.0.10.3
     volumes:
-      - mssqldb_data:/var/opt/mssql/data 
+      - mssqldb_data:/var/opt/mssql/data
+  mongodb:                       
+    container_name: mongodb      
+    image: mongodb/mongodb-community-server:latest
+    command: ["--setParameter", "diagnosticDataCollectionEnabled=false"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=MySecureStrongPassword1234
+    ports:                        
+      - "27017:27017/tcp"                                  
+    networks:                
+      netdb:
+        ipv4_address: 10.0.10.2
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_configdb:/data/configdb
+  ravendb:
+    container_name: ravendb
+    image: ravendb/ravendb:latest
+    ports:
+      - 8080:8080
+      - 38888:38888
+    volumes:
+      - ravendb_data:/data
+      - ravendb_ravendata:/opt/RavenDB/Server/RavenData
+      - ravendb_config:/opt/RavenDB/config
+    environment:
+      - RAVEN_License_Eula_Accepted=true
+      - RAVEN_Setup_Mode=None
+      - Public_Server_Url=http://localhost:8080
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
+      - RAVEN_Security_Administrator_User=admin
+      - RAVEN_Security_Administrator_Password=MySecureStrongPassword1234
+    networks:                
+      netdb:
+        ipv4_address: 10.0.10.3
 networks:
   netdb:
     name: netdb
@@ -37,5 +59,9 @@ networks:
           ip_range: "10.0.10.0/24"
           gateway: 10.0.10.1
 volumes:
-  mongodb_data:
   mssqldb_data:
+  mongodb_data:
+  mongodb_configdb:
+  ravendb_data:
+  ravendb_ravendata:
+  ravendb_config:
