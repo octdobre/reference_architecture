@@ -35,10 +35,6 @@ services:
     ports:
       - 8080:8080
       - 38888:38888
-    volumes:
-      - ravendb_data:/data
-      - ravendb_ravendata:/opt/RavenDB/Server/RavenData
-      - ravendb_config:/opt/RavenDB/config
     environment:
       - RAVEN_License_Eula_Accepted=true
       - RAVEN_Setup_Mode=None
@@ -49,6 +45,23 @@ services:
     networks:                
       netdb:
         ipv4_address: 10.0.10.3
+    volumes:
+      - ravendb_data:/data
+      - ravendb_ravendata:/opt/RavenDB/Server/RavenData
+      - ravendb_config:/opt/RavenDB/config
+  couchdb:
+    container_name: couchdb
+    image: couchdb:latest  #v. 3.3.2
+    ports:
+      - 5984:5984
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=MySecureStrongPassword1234
+    networks:                
+      netdb:
+        ipv4_address: 10.0.10.4
+    volumes:
+      - couchdb_data:/opt/couchdb/data
 networks:
   netdb:
     name: netdb
@@ -65,3 +78,4 @@ volumes:
   ravendb_data:
   ravendb_ravendata:
   ravendb_config:
+  couchdb_data:
