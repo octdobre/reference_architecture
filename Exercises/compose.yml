@@ -2,7 +2,7 @@ version: "3.9"
 services:
   mssqldb:
     container_name: mssqldb
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest  #c8f4b70e38bf
     user: root
     environment: 
       - ACCEPT_EULA=Y
@@ -16,7 +16,7 @@ services:
       - mssqldb_data:/var/opt/mssql/data
   mongodb:                       
     container_name: mongodb      
-    image: mongodb/mongodb-community-server:latest
+    image: mongodb/mongodb-community-server:latest #dd57bf2dc518  #6.0.5
     command: ["--setParameter", "diagnosticDataCollectionEnabled=false"]
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -31,7 +31,7 @@ services:
       - mongodb_configdb:/data/configdb
   ravendb:
     container_name: ravendb
-    image: ravendb/ravendb:latest
+    image: ravendb/ravendb:latest  #be297fce55f1  #5.4-ubuntu-latest
     ports:
       - 8080:8080
       - 38888:38888
