@@ -1,0 +1,120 @@
+version: "3.9"
+services:
+  mssqldb:
+    container_name: mssqldb
+    image: mcr.microsoft.com/mssql/server:2022-latest  #c8f4b70e38bf
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MySecureStrongPassword1234
+    ports:
+      - "1433:1433/tcp"
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.3
+    volumes:
+      - mssqldb_data:/var/opt/mssql/data
+  mongodb:
+    container_name: mongodb
+    image: mongodb/mongodb-community-server:latest #dd57bf2dc518  #6.0.5
+    command: ["--setParameter", "diagnosticDataCollectionEnabled=false"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=MySecureStrongPassword1234
+    ports:
+      - "27017:27017/tcp"
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.2
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_configdb:/data/configdb
+  ravendb:
+    container_name: ravendb
+    image: ravendb/ravendb:latest  #be297fce55f1  #5.4-ubuntu-latest
+    ports:
+      - 8080:8080
+      - 38888:38888
+    environment:
+      - RAVEN_License_Eula_Accepted=true
+      - RAVEN_Setup_Mode=None
+      - Public_Server_Url=http://localhost:8080
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
+      - RAVEN_Security_Administrator_User=admin
+      - RAVEN_Security_Administrator_Password=MySecureStrongPassword1234
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.3
+    volumes:
+      - ravendb_data:/data
+      - ravendb_ravendata:/opt/RavenDB/Server/RavenData
+      - ravendb_config:/opt/RavenDB/config
+  couchdb:
+    container_name: couchdb
+    image: couchdb:latest  #v. 3.3.2
+    ports:
+      - 5984:5984
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=MySecureStrongPassword1234
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.4
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+  postgresdb:
+    container_name: postgresdb
+    image: postgres
+    hostname: postgresdb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=MySecureStrongPassword1234
+      - POSTGRES_DB=ferretdb
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.5
+    volumes:
+      - ferretdb_data:/var/lib/postgresql/data
+  ferretdb:
+    container_name: ferretdb
+    image: ghcr.io/ferretdb/ferretdb
+    ports:
+      - 27018:27017
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.6
+    environment:
+      - FERRETDB_POSTGRESQL_URL=postgres://postgresdb:5432/ferretdb
+  couchbasedb:
+    container_name: couchbasedb
+    image: couchbase/server
+    ports:
+      - 8091-8094:8091-8094
+      - 11210:11210
+    networks:
+      netdb:
+        ipv4_address: 10.0.10.7
+    environment:
+      - CB_REST_USERNAME=admin
+      - CB_REST_PASSWORD=MySecureStrongPassword1234
+    volumes:
+      - couchbase_data:/opt/couchbase/var
+networks:
+  netdb:
+    name: netdb
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.10.0/24"
+          ip_range: "10.0.10.0/24"
+          gateway: 10.0.10.1
+volumes:
+  mssqldb_data:
+  mongodb_data:
+  mongodb_configdb:
+  ravendb_data:
+  ravendb_ravendata:
+  ravendb_config:
+  couchdb_data:
+  ferretdb_data:
+  couchbase_data:
