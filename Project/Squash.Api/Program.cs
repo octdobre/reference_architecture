@@ -12,6 +12,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BugInMemoryDb>(opt => opt.UseInMemoryDatabase("BugDb"));
 builder.Services.AddSingleton<BugDocumentDb>();
 
+// Manual ssl certificate
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.ConfigureHttpsDefaults(listenOptions =>
+//    {
+//        listenOptions.ServerCertificate = new X509Certificate2("Path to your .pfx file", "your password");
+//    });
+//});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
