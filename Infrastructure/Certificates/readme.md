@@ -2,7 +2,7 @@
 
 ## Commands to generate a Self-Signed SSL/TLS certificate
 
-All following commands are for powershell.
+The commands in the code area below are using powershell.
 
 ```
 // Set certificate common name
@@ -60,11 +60,11 @@ or
 
 ## Locations of certificates (LocalMachine, CurrentUser)		
 
-To view certificates in the current logged in user store, open Run:
+To view certificates in the current logged in user store, open Run and type:
 ```
-certmgr. msc
+certmgr.msc
 ```
-To view certificates in the current machine store, open Run:
+To view certificates in the current machine store, open Run and type:
 ```
 certlm.msc
 ```
@@ -97,7 +97,7 @@ openssl x509 -in localhost.crt -noout -text
 openssl rsa -in localhost.key -out localhost.key.dec
 ```
 
-## Using OpenSSL to create a ASP.Net development certificate(auto resolve)
+## Using OpenSSL to create an ASP.Net development certificate(auto resolve)
 
 ### Create a Asp.Net configuration file 'asp_net.cnf':
 ```
