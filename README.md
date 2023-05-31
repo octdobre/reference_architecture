@@ -22,6 +22,7 @@ updated nodes to work with the newly updated partitions of data)
 
 ### Infrastructure Patterns
 
+* [Cryptography for the web : OpenSSL](/Studies/3.cryptography_for_web.md)
 * [Document Databases](/Studies/2.document_databases.md)
 * Containers
 * Serverless
