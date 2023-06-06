@@ -97,42 +97,13 @@ openssl x509 -in localhost.crt -noout -text
 openssl rsa -in localhost.key -out localhost.key.dec
 ```
 
-## Using OpenSSL to create an ASP.Net development certificate(auto resolve)
-
-### Create a Asp.Net configuration file 'asp_net.cnf':
-```
-[ req ]
-default_bits = 2048
-distinguished_name = dn
-req_extensions = aspnet
-
-[ dn ]
-CN = localhost
-
-[ aspnet ]
-basicConstraints = critical, CA:FALSE
-keyUsage = critical, digitalSignature, keyEncipherment
-extendedKeyUsage = critical, serverAuth
-subjectAltName = critical, DNS:localhost
-1.3.6.1.4.1.311.84.1.1 = DER:02
-```
-
-```
-// Create CA
-TODO
-
-// Create self signed certificate
-openssl req -new -config asp_net.cnf -keyout local_asp_dev.key -out local_asp_dev.csr -nodes
-
-// Sign with CA
-openssl x509 -req -in local_asp_dev.csr -CA /path/to/CA.pem -CAkey /path/to/CA.key -CAcreateserial -out local_asp_dev.crt -days 365 -sha256 -extensions aspnet -extfile asp_config.conf
-
-// Pack into a pfx file
-openssl pkcs12 -in local_asp_dev.crt -inkey local_asp_dev.key -export -out local_asp_dev.pfx
-```
-
 ## Create certificate using `dev-certs` tool
 
+The cool creates development certificates that are automatically discovered by Asp.Net
+applications without any Extra configuration
+
+
+Generate certificate and add it to the trusted store:
 ```
 dotnet dev-certs https --trust
 ```
