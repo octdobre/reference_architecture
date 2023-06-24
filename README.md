@@ -24,6 +24,8 @@ updated nodes to work with the newly updated partitions of data)
 
 * [Cryptography for the web : OpenSSL](/Studies/3.cryptography_for_web.md)
 * [Document Databases](/Studies/2.document_databases.md)
+* [Public Key Infrastructure : OpenSSL](/Studies/4.public_key_infrastructure.md)
+* [Reverse Proxy](/Studies/5.reverse_proxy.md)
 * Containers
 * Serverless
 
