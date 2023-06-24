@@ -12,8 +12,9 @@
 *.pfx
 *.publishsettings
 
-#JavaScript Projects
+# Web
 node_modules/
+wwwroot
 
 # Build results
 x64/

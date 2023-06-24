@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Make your request!</h1>
+
+    <div>
+        <button id="btnRequestapi1" class="btn btn-primary">Make API V1 Request</button>
+        <textarea id="response1" rows="5" class="form-control" readonly></textarea>
+    </div>
+
+    <div>
+        <button id="btnRequestapi2" class="btn btn-primary">Make API V2 Request</button>
+        <textarea id="response2" rows="5" class="form-control" readonly></textarea>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.getElementById("btnRequestapi1").addEventListener("click", function () {
+            fetch("https://localhost:7501/api/v1/version")
+                .then(response => response.text())
+                .then(data => document.getElementById("response1").value = data);
+        });
+
+        document.getElementById("btnRequestapi2").addEventListener("click", function () {
+            fetch("https://localhost:7501/api/v2/version")
+                .then(response => response.text())
+                .then(data => document.getElementById("response2").value = data);
+        });
+    </script>
+}
