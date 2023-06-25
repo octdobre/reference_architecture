@@ -5,13 +5,13 @@
 An example solution that uses best practice patterns for developing web applications.
 
 
-### Frontend Patterns
+### Frontend topics
 
 * Structure of the web: HTML
 * Styles of the Web: CSS
 * Language of the Web: Javascript
 
-### API Patterns
+### Backend API topics
 
 * [Vertical Slice Architecture](/Studies/1.vertical_slice_architecture.md)
 
@@ -24,12 +24,12 @@ updated nodes to work with the newly updated partitions of data)
 * Types of connections: HTTP, REST, gRPS, WebSockets, SignalR, MQTT, TCP, UDP
 * Types of connections: HTTP 1 vs 2 vs 3
 
-### Application Testing Patterns
+### Application Testing topics
 * In Memory Testing Of Applications
 * Performance testing
 * Penetration testing
 
-### Infrastructure Patterns
+### Infrastructure topics
 
 * [Cryptography for the web : OpenSSL](/Studies/3.cryptography_for_web.md)
 * [Document Databases](/Studies/2.document_databases.md)
