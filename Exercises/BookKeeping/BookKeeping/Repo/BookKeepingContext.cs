@@ -106,7 +106,6 @@ public class BookKeepingContext : DbContext
         //modelBuilder.ApplyConfiguration(new EditorConfiguration());
         //modelBuilder.ApplyConfiguration(new AddressConfiguration());
 
-
         modelBuilder.Entity<NewsArticle>();
         modelBuilder.Entity<Ad>();
         modelBuilder.Entity<JobOffer>();
