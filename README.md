@@ -14,6 +14,7 @@ An example solution that uses best practice patterns for developing web applicat
 ### Backend API topics
 
 * [Vertical Slice Architecture](/Studies/1.vertical_slice_architecture.md)
+* [Object Relational Mapper : Entity Framework](/Studies/6.object_relational_mappers.md)
 
 * Endpoint Load Balancing(calculate endpoint weight and create or delete nodes, and balance endpoints on nodes)
 * Event Sourcing
@@ -23,8 +24,10 @@ An example solution that uses best practice patterns for developing web applicat
 updated nodes to work with the newly updated partitions of data)
 * Types of connections: HTTP, REST, gRPS, WebSockets, SignalR, MQTT, TCP, UDP
 * Types of connections: HTTP 1 vs 2 vs 3
+* Telemetry
 
 ### Application Testing topics
+
 * In Memory Testing Of Applications
 * Performance testing
 * Penetration testing
@@ -32,9 +35,9 @@ updated nodes to work with the newly updated partitions of data)
 ### Infrastructure topics
 
 * [Cryptography for the web : OpenSSL](/Studies/3.cryptography_for_web.md)
-* [Document Databases](/Studies/2.document_databases.md)
+* [Document Databases : CouchDB, MongoDB](/Studies/2.document_databases.md)
 * [Public Key Infrastructure : OpenSSL](/Studies/4.public_key_infrastructure.md)
-* [Reverse Proxy](/Studies/5.reverse_proxy.md)
+* [Reverse Proxy : YARP](/Studies/5.reverse_proxy.md)
 
 * Reverse proxy real-time configuration
 * Serverless
