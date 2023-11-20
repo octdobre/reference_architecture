@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net8", "Net8", "{1D323CBF-C9B5-448D-B211-D05E2274E50D}"
+	ProjectSection(SolutionItems) = preProject
+		Exercises\Evolution\Net8\net8.md = Exercises\Evolution\Net8\net8.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net7", "Net7", "{7D681475-A76F-486F-8928-8EC06EC21861}"
 EndProject
