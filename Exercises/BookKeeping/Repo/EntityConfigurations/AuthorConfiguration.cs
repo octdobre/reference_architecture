@@ -37,7 +37,7 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .Property(a => a.Nationality)
             .HasMaxLength(255);
 
-        //Set this to test Author->DeleteAndUnlinkFullCascadeHandler
+        //Set this to test feature Author->DeleteAndUnlinkFullCascadeHandler
         //https://www.learnentityframeworkcore.com/relationships/referential-constraint-action-options
         //modelBuilder
         //    .HasMany(a => a.Addresses)
