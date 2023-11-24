@@ -109,7 +109,7 @@ public class Student(int id, string name, int age) : Person(name)
     }
 
     // experimental attribute
-    [Experimental("PRINTLASTGRADE01")]
+    [Experimental("PRINTLASTGRADE01", UrlFormat = "some url for more information")]
     public void PrintLastGrade()
     {
         Console.WriteLine(grades.Last());

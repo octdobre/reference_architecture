@@ -91,7 +91,7 @@ public Action<string> ReplyWithName => (string personName = "Person") =>
 ```
 using System.Diagnostics.CodeAnalysis;
 
-[Experimental("PRINTLASTGRADE01")]
+[Experimental("PRINTLASTGRADE01", UrlFormat = "some url for more information")]
     public void PrintLastGrade()
     {
         Console.WriteLine(grades.Last());
