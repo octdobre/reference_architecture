@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 //Alias for any types and tuples
 using Grade = decimal;
@@ -16,8 +17,16 @@ Console.WriteLine(student.Id);
 Console.WriteLine(student.Name);
 Console.WriteLine(student.Age);
 
-//Collection expressions
+//ref readonly
+var grade = 5;
+student.Print(in grade);
 
+//experimental feature
+#pragma warning disable PRINTLASTGRADE01 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+student.PrintLastGrade();
+#pragma warning restore PRINTLASTGRADE01 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
+//Collection expressions
 ImmutableList<decimal> extraGrades = [5, 3, 4, 1];
 
 // .... extraGrades -> SPREADS collection merging
@@ -85,12 +94,24 @@ public class Student(int id, string name, int age) : Person(name)
         [.. var all] => all.Average() //multiple grades
     };
 
+    // default lambda params
+    public Action<string> ReplyWithName => (string personName = "Person") =>
+    {
+        Console.WriteLine($"Hello {personName}.");
+        Console.WriteLine($"Nice to meet you.");
+        Console.WriteLine($"My name is {Name}");
+    };
+
+    // ref readonly (value types and reference types)
+    public void Print(ref readonly int grade)
+    {
+        Console.WriteLine(grade);
+    }
+
+    // experimental attribute
+    [Experimental("PRINTLASTGRADE01")]
+    public void PrintLastGrade()
+    {
+        Console.WriteLine(grades.Last());
+    }
 }
-
-// default lambda params
-
-// ref readonly
-
-// experimental attribute
-
-// interceptors
