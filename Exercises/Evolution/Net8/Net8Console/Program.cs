@@ -21,11 +21,6 @@ Console.WriteLine(student.Age);
 var grade = 5;
 student.Print(in grade);
 
-//experimental feature
-#pragma warning disable PRINTLASTGRADE01 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-student.PrintLastGrade();
-#pragma warning restore PRINTLASTGRADE01 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
 //Collection expressions
 ImmutableList<decimal> extraGrades = [5, 3, 4, 1];
 
@@ -45,6 +40,12 @@ int[] row2 = [7, 8, 9];
 //Spreads collection
 int[] twoDFromVariables = [.. row0, .. row1, .. row2];
 
+//experimental feature
+#pragma warning disable PRINTLASTGRADE01 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+student.PrintLastGrade();
+#pragma warning restore PRINTLASTGRADE01 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
+Console.ReadKey();
 
 //Primary constructor for classes
 public class Person(string name)
@@ -112,6 +113,6 @@ public class Student(int id, string name, int age) : Person(name)
     [Experimental("PRINTLASTGRADE01", UrlFormat = "some url for more information")]
     public void PrintLastGrade()
     {
-        Console.WriteLine(grades.Last());
+        Console.WriteLine($"The last grade is :{grades.Last()}");
     }
 }

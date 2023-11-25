@@ -9,6 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net8", "Net8", "{1D323CBF-C
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net7", "Net7", "{7D681475-A76F-486F-8928-8EC06EC21861}"
+	ProjectSection(SolutionItems) = preProject
+		Exercises\Evolution\Net7\net7.md = Exercises\Evolution\Net7\net7.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net7Console", "Exercises\Evolution\Net7\Net7Console\Net7Console.csproj", "{B6D47F6A-1AE9-4894-A555-21DA96B6A12A}"
 EndProject
