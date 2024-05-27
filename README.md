@@ -18,6 +18,12 @@ An example solution that uses best practice patterns for developing web applicat
 
 * Endpoint Load Balancing(calculate endpoint weight and create or delete nodes, and balance endpoints on nodes)
 * Event Sourcing
+    * All events have a conversation ID 
+    * Partitioned by the conversation type
+    * Background service processes queue to save the latest state of a materialized view 
+    * Reads only return the materialized view
+    * Possibility to view Entire conversations
+    * Replace log messages with events and link to the same conversation
 * Caching
 * Rete-Limiting
 * Partition gated clearance(sepparate data in partitions, isolate and update individual partitions, and enable
