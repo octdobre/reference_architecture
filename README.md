@@ -31,12 +31,16 @@ updated nodes to work with the newly updated partitions of data)
 * Types of connections: HTTP, REST, gRPS, WebSockets, SignalR, MQTT, TCP, UDP
 * Types of connections: HTTP 1 vs 2 vs 3
 * Telemetry
+* Behaviour Driven Development
+* Functional programming
 
 ### Application Testing topics
 
 * In Memory Testing Of Applications
 * Performance testing
 * Penetration testing
+* Test driven development
+* Time Studies(Delay,StopWatch,PeriodicTimer)
 
 ### Infrastructure topics
 
@@ -45,5 +49,7 @@ updated nodes to work with the newly updated partitions of data)
 * [Public Key Infrastructure : OpenSSL](/Studies/4.public_key_infrastructure.md)
 * [Reverse Proxy : YARP](/Studies/5.reverse_proxy.md)
 
+* Application Configuration
+* Key Vaults
 * Reverse proxy real-time configuration
 * Serverless
