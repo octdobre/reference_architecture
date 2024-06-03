@@ -31,6 +31,12 @@ updated nodes to work with the newly updated partitions of data)
 * Types of connections: HTTP, REST, gRPS, WebSockets, SignalR, MQTT, TCP, UDP
 * Types of connections: HTTP 1 vs 2 vs 3
 * Telemetry
+    * Dependency calls ( http, sql, grpc)
+    * Costs
+    * ITelemetryInitializer, ITelemetryProcessor
+    * Distributed tracing/ Conversations
+    * System.Diagnostics.Activity/ ActivityId WC3
+    * OpenTelemetry
 * Behaviour Driven Development
 * Functional programming
 
